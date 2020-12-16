@@ -3,9 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../public/scripts/ajax-script.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello <%= nameIndex %> </h1>
+    
+    <h3>Techreads</h3>
+    <h4>Hello <%= nameIndex %> </h4>
+
+    <hr>
+    <div>
+        <button id="get-button">Display Libray</button>
+        <hr>
+    </div>
+    <div>
+        <label>Search By:</label>
+    </div>
+    <div>
+        <form id="search-form">
+            <div>
+                <label>Author</label>
+                <input type="text" id="input-author">
+                <label>Title</label>
+                <input type="text" id="input-title">
+                <label>Categhory</label>
+                <input type="text" id="input-cathegory">
+            </div>
+      
+            <button>Search</button>
+        </form>
+    </div>
+   
+    <hr>
+
+        <dupa>
+
+        </dupa>
 </body>
 </html>

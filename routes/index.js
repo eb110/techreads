@@ -2,12 +2,22 @@
 const express = require('express')
 const router = express.Router()
 
+let bodyParser = require('body-parser');
+router.use(bodyParser.json());
+
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 
 
 const Book = require('../models/book')
+let original_books = []
+let books = []
+let nazwa = {}
 const User = require('../models/user')
+
+let control_search_all = 0
+
+const search_method = require('../search_books')
 
 //hook up passport configuration
 const initializePassport = require('../passport-config')
@@ -33,10 +43,31 @@ router.use(passport.initialize())
 router.use(passport.session())
 
 router.get('/', checkAuthenticated, async (req, res) => {
-    const nazwa = await req.user
+    nazwa = await req.user
+    original_books = await Book.find({})
+    original_books.forEach((book) => {
+        books.push(book)
+    })
     res.render('index.ejs', {
         nameIndex: nazwa.userName
     })
+})
+
+router.get('/books', (req, res) => {
+    if(control_search_all == 1){
+        control_search_all = 0
+    res.send({books: books})
+    }
+    else res.send({books: original_books})
+})
+
+router.post('/search', (req, res) => {
+    control_search_all = 1
+    let auth = req.body.auth
+    let titl = req.body.titl
+    let cath = req.body.cath
+    books = search_method(original_books, auth, titl, cath)
+    res.send('books has been searched')
 })
 
 router.get('/register', checkNotAuthenticated, (req, res) => {
