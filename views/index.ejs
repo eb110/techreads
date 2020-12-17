@@ -5,40 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <script src="../public/scripts/ajax-script.js"></script>
-    <title>Document</title>
+    <script src="../public/scripts/jquery.scrollTo.min.js"></script>
+    <script>
+        jQuery(function($){
+            //reset scroll
+            $.scrollTo(0)
+            $('.scrollup').click(() => { $.scrollTo($('body'), 1000)})
+            //scroll up button behaviour
+            $(window).scroll(function(){
+                if($(this).scrollTop()>300) $('.scrollup').fadeIn()
+                else $('.scrollup').fadeOut()
+            })
+        })
+    </script>
+    
+    <link rel="stylesheet" href="../public/style.css" type="text/css"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>Techreads</title>
 </head>
 <body>
-    
-    <h3>Techreads</h3>
-    <h4>Hello <%= nameIndex %> </h4>
-
-    <hr>
-    <div>
-        <button id="get-button">Display Libray</button>
-        <hr>
+    <div id="logo"><%= nameIndex %> welcome to Techreads
     </div>
-    <div>
+    <div id="top-container"><button id="get-button">Display Library</button></div>
+    <hr>
+    <div id="top-container">
         <label>Search By:</label>
+        <div>
+            <form id="search-form">
+                <div>
+                    <label>Author</label>
+                    <input type="text" id="input-author">
+                    <label>Title</label>
+                    <input type="text" id="input-title">
+                    <label>Category</label>
+                    <input type="text" id="input-cathegory">
+                </div>
+
+                <button>Search</button>
+            </form>
+        </div>
     </div>
-    <div>
-        <form id="search-form">
-            <div>
-                <label>Author</label>
-                <input type="text" id="input-author">
-                <label>Title</label>
-                <input type="text" id="input-title">
-                <label>Categhory</label>
-                <input type="text" id="input-cathegory">
-            </div>
-      
-            <button>Search</button>
-        </form>
-    </div>
-   
     <hr>
+    <div id="container">
+        <a href="#" class="scrollup"></a>
         <dupa>
 
         </dupa>
-      
+    </div>
+
+
 </body>
 </html>

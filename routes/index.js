@@ -59,8 +59,13 @@ router.get('/books', (req, res) => {
         control_search_all = 0
     res.send({books: books})
     }
-    else 
+    else {
+        books = []
+        original_books.forEach((book) => {
+            books.push(book)
+        })
     res.send({books: original_books})
+    }
 })
 
 router.post('/search', (req, res) => {
@@ -73,11 +78,12 @@ router.post('/search', (req, res) => {
 })
 
 router.post('/review', async (req, res) => {
+    control_search_all = 1
    let rev = req.body.rev
    let id = req.body.id.substring(4)
-   let dane = new_review_method(original_books, nazwa.userName, rev, id)
-   original_books = dane[0]
-   books = original_books
+   if(rev !== undefined && rev.length > 0){
+   let dane = new_review_method(books, nazwa.userName, rev, id)
+   books = dane[0]
    await Book.updateOne({
        id: id
    },{
@@ -85,6 +91,8 @@ router.post('/review', async (req, res) => {
             reviews: dane[1]
        }
    })
+   original_books = await Book.find({})
+}
     res.send('review has been added')
 })
 

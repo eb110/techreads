@@ -8,6 +8,20 @@ $(function() {
             success: (response) => {
                let tbodyEL = $('dupa')
                tbodyEL.html('')
+               let ind = 0
+                let wsadLista = ''
+                response.books.forEach((book) => 
+                {wsadLista += '<li><a href="#' + ++ind + '">' + book.title + '</a></li>'})
+           
+               tbodyEL.append('\
+               <div id="spis">\
+               <ol>\
+               ' + wsadLista + '\
+               <hr>\
+               </ol>\
+               </div>\
+               ')
+                ind = 0
                response.books.forEach((book) => {
                    let authorsWsad = ''
                    book.authors.forEach((author) => {authorsWsad += '<div>Author: ' + author + '</div>'})
@@ -24,15 +38,14 @@ $(function() {
 
                 tbodyEL.append('\
                 <section>\
-                <div class="id">ID: ' + book.id + '</div>\
+                <div class="slajd">\
+                <p id="' + ++ind + '">' + ind + '.' + book.title + '</p>\
                 ' + authorsWsad + '\
                 \
-                 <div>Title: ' + book.title + '</div>\
                  <div>Description: ' + book.description + '</div>\
-                 <div>Publisher: ' + book.publisher + '</div>\
-                 <div>Year: ' + book.year + '</div>\
-                 <div>ISBN: ' + book.isbn + '</div>\
+                 <div>Publisher: ' + book.publisher + ' Year: ' + book.year + ' ISBN: ' + book.isbn + '</div>\</div>\
                  <div>Category: ' + book.category + '</div>\
+                 <div class="id">ID: ' + book.id + '</div>\
                  <div>Ratings: ' + wsad + '</div>\
                  ' + revWsad + '\
                  \
@@ -42,6 +55,7 @@ $(function() {
                  <button class="add-review-button">Add a Review</button>\
                  </form>\
                  <hr>\
+                 </div>\
                  </section>\
                  ')
             })           
