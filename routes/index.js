@@ -18,6 +18,7 @@ const User = require('../models/user')
 let control_search_all = 0
 
 const search_method = require('../search_books')
+const new_review_method = require('../new_review')
 
 //hook up passport configuration
 const initializePassport = require('../passport-config')
@@ -54,11 +55,12 @@ router.get('/', checkAuthenticated, async (req, res) => {
 })
 
 router.get('/books', (req, res) => {
-    if(control_search_all == 1){
-        control_search_all = 0
-    res.send({books: books})
-    }
-    else res.send({books: original_books})
+ //   if(control_search_all == 1){
+  //      control_search_all = 0
+//    res.send({books: books})
+ //   }
+   // else 
+    res.send({books: original_books})
 })
 
 router.post('/search', (req, res) => {
@@ -68,6 +70,21 @@ router.post('/search', (req, res) => {
     let cath = req.body.cath
     books = search_method(original_books, auth, titl, cath)
     res.send('books has been searched')
+})
+
+router.post('/review', async (req, res) => {
+   let rev = req.body.rev
+   let id = req.body.id.substring(4)
+   let dane = new_review_method(original_books, nazwa.userName, rev, id)
+   original_books = dane[0]
+   await Book.updateOne({
+       id: id
+   },{
+       $set: {
+            reviews: dane[1]
+       }
+   })
+    res.send('review has been added')
 })
 
 router.get('/register', checkNotAuthenticated, (req, res) => {

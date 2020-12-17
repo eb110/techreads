@@ -9,43 +9,90 @@ $(function() {
                let tbodyEL = $('dupa')
                tbodyEL.html('')
                response.books.forEach((book) => {
-                tbodyEL.append('\
-                <div>ID: ' + book.id + '</div>\
-                 ')
-                 book.authors.forEach((author) => {
-                    tbodyEL.append('\
-                    <div>Author: ' + author + '</div>\
-                     ')
+                   let authorsWsad = ''
+                   book.authors.forEach((author) => {authorsWsad += '<div>Author: ' + author + '</div>'})
+                   let wsad = ''
+                   book.ratings.forEach((rating) => {wsad += rating + ', '})
+                   if(wsad.length > 0)wsad = wsad.substring(0, wsad.length - 2)
+                   let revWsad = '' 
+                   book.reviews.forEach((review) => {
+                    wsad += 
+                    '<div>Reviewer: ' + review.reviewer + '</div>\
+                    <div>Review: ' + review.review + '</div>\
+                    '
                  })
-                 tbodyEL.append('\
+
+                tbodyEL.append('\
+                <section>\
+                <div class="id">ID: ' + book.id + '</div>\
+                ' + authorsWsad + '\
+                \
                  <div>Title: ' + book.title + '</div>\
                  <div>Description: ' + book.description + '</div>\
                  <div>Publisher: ' + book.publisher + '</div>\
                  <div>Year: ' + book.year + '</div>\
                  <div>ISBN: ' + book.isbn + '</div>\
                  <div>Category: ' + book.category + '</div>\
-                  ')
-                  let wsad = ''
-                 book.ratings.forEach((rating) => {
-                     wsad += rating + ', '
-                 })
-                 if(wsad.length > 0)wsad = wsad.substring(0, wsad.length - 2)
-                 tbodyEL.append('\
                  <div>Ratings: ' + wsad + '</div>\
+                 ' + revWsad + '\
+                 \
+                 <hr>\
+                 <form id="rewiev-form">\
+                 <div><input type="textarea" id="create-review"></div>\
+                 <button class="add-review-button">Add a Review</button>\
+                 </form>\
+                 <hr>\
+                 </section>\
                  ')
-                 book.reviews.forEach((review) => {
-                    tbodyEL.append('\
-                    <div>Reviewer: ' + review.reviewer + '</div>\
-                    <div>Review: ' + review.review + '</div>\
-                     ')
-                 })
-            })
+            })           
+        }            
+        })
+    })
+
+    //POST Review
+    $('dupa').on('click', '.add-review-button', function() {
+       let check = $(this).closest('section')
+       let id = check.find('.id').text()
+     //  let rev = $('#create-review')   
+     let rev = check.find('#create-review')
+        $.ajax({
+            url: '/review',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ rev: rev.val(), id: id}),
+            success: (response) => {
+                console.log(response)
+                rev.val('')
+                $('#get-button').click()
             }
         })
     })
-    
 
-    //POST
+
+  /*  
+//UPDATE/PUT
+$('dupa').on('click', '.add-review-button', function() {
+    let rowEL = $(this).closest('section')
+    console.log(rowEL)
+   let wsad = rowEL.find('.create-review').val()
+    console.log(wsad)
+   // let id = rowEl.find('.id').text();
+   // let newName = rowEl.find('.name').val();
+
+    $.ajax({
+        url: '/products/' + id,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ newName: newName }),
+        success: (response) => {
+            console.log(response);
+            $('#get-button').click();
+        }
+    });
+    
+});
+*/
+    //POST Search
     $('#search-form').on('submit', (event)=> {
         event.preventDefault();
     
@@ -68,3 +115,24 @@ $(function() {
         })
     })
 })
+
+
+
+
+/*
+tbodyEL.append('\
+<section>\
+<div>ID: ' + book.id + '</div>\
+<div>Title: ' + book.title + '</div>\
+<div>Description: ' + book.description + '</div>\
+<div>Publisher: ' + book.publisher + '</div>\
+<div>Year: ' + book.year + '</div>\
+<div>ISBN: ' + book.isbn + '</div>\
+<div>Category: ' + book.category + '</div>\
+<hr>\
+<button class="add-review-button">Add a Review</button>\
+<div><input type="textarea" id="create-review"></div>\
+<hr>\
+</section>\
+')
+*/

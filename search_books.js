@@ -1,5 +1,3 @@
-const book = require("./models/book")
-
 function search(books, auth, titl, cath){
     let temp_books = []
     let flag = 0
