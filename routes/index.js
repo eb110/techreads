@@ -55,11 +55,11 @@ router.get('/', checkAuthenticated, async (req, res) => {
 })
 
 router.get('/books', (req, res) => {
- //   if(control_search_all == 1){
-  //      control_search_all = 0
-//    res.send({books: books})
- //   }
-   // else 
+    if(control_search_all == 1){
+        control_search_all = 0
+    res.send({books: books})
+    }
+    else 
     res.send({books: original_books})
 })
 
@@ -77,6 +77,7 @@ router.post('/review', async (req, res) => {
    let id = req.body.id.substring(4)
    let dane = new_review_method(original_books, nazwa.userName, rev, id)
    original_books = dane[0]
+   books = original_books
    await Book.updateOne({
        id: id
    },{

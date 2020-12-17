@@ -50,11 +50,11 @@ $(function() {
     })
 
     //POST Review
-    $('dupa').on('click', '.add-review-button', function() {
+    $('dupa').on('click', '.add-review-button', function(event) {
+        event.preventDefault();
        let check = $(this).closest('section')
        let id = check.find('.id').text()
-     //  let rev = $('#create-review')   
-     let rev = check.find('#create-review')
+       let rev = check.find('#create-review')
         $.ajax({
             url: '/review',
             method: 'POST',
@@ -68,30 +68,6 @@ $(function() {
         })
     })
 
-
-  /*  
-//UPDATE/PUT
-$('dupa').on('click', '.add-review-button', function() {
-    let rowEL = $(this).closest('section')
-    console.log(rowEL)
-   let wsad = rowEL.find('.create-review').val()
-    console.log(wsad)
-   // let id = rowEl.find('.id').text();
-   // let newName = rowEl.find('.name').val();
-
-    $.ajax({
-        url: '/products/' + id,
-        method: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify({ newName: newName }),
-        success: (response) => {
-            console.log(response);
-            $('#get-button').click();
-        }
-    });
-    
-});
-*/
     //POST Search
     $('#search-form').on('submit', (event)=> {
         event.preventDefault();
@@ -116,23 +92,26 @@ $('dupa').on('click', '.add-review-button', function() {
     })
 })
 
+  /*  
+//UPDATE/PUT
+$('dupa').on('click', '.add-review-button', function() {
+    let rowEL = $(this).closest('section')
+    console.log(rowEL)
+   let wsad = rowEL.find('.create-review').val()
+    console.log(wsad)
+   // let id = rowEl.find('.id').text();
+   // let newName = rowEl.find('.name').val();
 
-
-
-/*
-tbodyEL.append('\
-<section>\
-<div>ID: ' + book.id + '</div>\
-<div>Title: ' + book.title + '</div>\
-<div>Description: ' + book.description + '</div>\
-<div>Publisher: ' + book.publisher + '</div>\
-<div>Year: ' + book.year + '</div>\
-<div>ISBN: ' + book.isbn + '</div>\
-<div>Category: ' + book.category + '</div>\
-<hr>\
-<button class="add-review-button">Add a Review</button>\
-<div><input type="textarea" id="create-review"></div>\
-<hr>\
-</section>\
-')
+    $.ajax({
+        url: '/products/' + id,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ newName: newName }),
+        success: (response) => {
+            console.log(response);
+            $('#get-button').click();
+        }
+    });
+    
+});
 */
