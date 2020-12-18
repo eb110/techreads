@@ -27,7 +27,17 @@
 <body>
     <div id="logo"><%= nameIndex %> welcome to Techreads
     </div>
-    <div id="top-container"><button id="get-button">Display Library</button></div>
+    <div id="top-container">
+        <div class="square">
+            <button id="get-button">Display Library</button>
+        </div>
+        <div class="square">
+            <form action="/logout?_method=DELETE" method="POST">
+                <button type="submit">Log Out</button>
+            </form>
+        </div>
+        <div style="clear:both;">
+    </div>
     <hr>
     <div id="top-container">
         <label>Search By:</label>

@@ -2,17 +2,17 @@ $(function() {
 
     //GET all books
     $('#get-button').on('click', () => {
-        $.ajax({
+        $.ajax({   
             url: '/books',
             contentType: 'application/json',
             success: (response) => {
+                let user = response.user
                let tbodyEL = $('dupa')
                tbodyEL.html('')
                let ind = 0
                 let wsadLista = ''
                 response.books.forEach((book) => 
-                {wsadLista += '<li><a href="#' + ++ind + '">' + book.title + '</a></li>'})
-           
+                {wsadLista += '<li><a href="#' + ++ind + '">' + book.title + '</a></li>'})        
                tbodyEL.append('\
                <div id="spis">\
                <ol>\
@@ -23,6 +23,31 @@ $(function() {
                ')
                 ind = 0
                response.books.forEach((book) => {
+               // console.log(user)
+                   let bookread = ''
+                   let date = ''
+                   let checkIfread = false
+                   for(let i = 0; i < book.readByUser.length; i++){
+                       if(book.readByUser[i].name === user.userName){
+                           checkIfread = true
+                           date = book.readByUser[i].date
+                           break
+                       }
+                   }
+                   if(checkIfread){
+                    bookread = '<div>Book read at ' + date + '</div>'
+                   }
+                   else bookread = 
+                   '<form id="read-form">\
+                        <div><input type="date" id="create-date" required value="' + new Date().toISOString().split('T')[0] + '"></div>\
+                        <button class="add-date-button">Book Read</button>\
+                   </form>\
+                   '
+                   let ratave = 0
+                   if(book.ratings.length != 0){
+                   let temprat = book.ratings
+                   ratave = temprat.reduce((sum, n) => sum + n, 0) / book.ratings.length
+                   }
                    let authorsWsad = ''
                    book.authors.forEach((author) => {authorsWsad += '<div>Author: ' + author + '</div>'})
                    let wsad = ''
@@ -38,24 +63,51 @@ $(function() {
 
                 tbodyEL.append('\
                 <section>\
-                <div class="slajd">\
-                <p id="' + ++ind + '">' + ind + '.' + book.title + '</p>\
-                ' + authorsWsad + '\
-                \
-                 <div>Description: ' + book.description + '</div>\
-                 <div>Publisher: ' + book.publisher + ' Year: ' + book.year + ' ISBN: ' + book.isbn + '</div>\</div>\
-                 <div>Category: ' + book.category + '</div>\
-                 <div class="id">ID: ' + book.id + '</div>\
-                 <div>Ratings: ' + wsad + '</div>\
-                 ' + revWsad + '\
-                 \
-                 <hr>\
-                 <form id="rewiev-form">\
-                 <div><input type="textarea" id="create-review"></div>\
-                 <button class="add-review-button">Add a Review</button>\
-                 </form>\
-                 <hr>\
-                 </div>\
+                    <div class="slajd">\
+                        <p id="' + ++ind + '">' + ind + '.' + book.title + '</p>\
+                        ' + authorsWsad + '\
+                        \
+                        <div>Description: ' + book.description + '</div>\
+                        <div>Publisher: ' + book.publisher + ' Year: ' + book.year + ' ISBN: ' + book.isbn + '</div>\
+                        <div class="cat">Category: ' + book.category + '</div>\
+                        <div class="id">ID: ' + book.id + '</div>\
+                        <div>Ratings Average: ' + +ratave.toFixed(2) + '</div>\
+                        <div>Ratings: ' + wsad + '</div>\
+                         ' + revWsad + '\
+                         \
+                        <hr>\
+                        <div class="contener">\
+                            <div class="square">\
+                                <form id="rewiev-form">\
+                                    <div><input type="textarea" id="create-review"></div>\
+                                    <button class="add-review-button">Add Review</button>\
+                                </form>\
+                            </div>\
+                            <div class="square">\
+                                <form id="rating-form">\
+                                    <div>\
+                                    <select id="create-rating">\
+                                    <option>1</option>\
+                                    <option>2</option>\
+                                    <option>3</option>\
+                                    <option>4</option>\
+                                    <option>5</option>\
+                                    <option>6</option>\
+                                    <option>7</option>\
+                                    <option>8</option>\
+                                    <option>9</option>\
+                                    </select>\
+                                    </div>\
+                                    <button class="add-rating-button">Add Rating</button>\
+                                </form>\
+                            </div>\
+                            <div class="square">\
+                             ' + bookread + '\
+                             </div>\
+                            <div style="clear:both;">\
+                            <hr>\
+                        </div>\
+                    </div>\
                  </section>\
                  ')
             })           
@@ -81,6 +133,45 @@ $(function() {
             }
         })
     })
+
+        //POST Rating
+        $('dupa').on('click', '.add-rating-button', function(event) {
+            event.preventDefault();
+           let check = $(this).closest('section')
+           let id = check.find('.id').text()
+           let rev = check.find('#create-rating')
+            $.ajax({
+                url: '/rating',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ rev: rev.val(), id: id}),
+                success: (response) => {
+                    console.log(response)
+                    rev.val('')
+                    $('#get-button').click()
+                }
+            })
+        })
+
+              //POST Book read
+              $('dupa').on('click', '.add-date-button', function(event) {
+                event.preventDefault();
+               let check = $(this).closest('section')
+               let id = check.find('.id').text()
+               let cat = check.find('.cat').text()
+               let rev = check.find('#create-date')
+                $.ajax({
+                    url: '/bookread',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ rev: rev.val(), id: id, cat: cat}),
+                    success: (response) => {
+                        console.log(response)
+                        rev.val('')
+                        $('#get-button').click()
+                    }
+                })
+            })
 
     //POST Search
     $('#search-form').on('submit', (event)=> {

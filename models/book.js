@@ -23,7 +23,8 @@ const Book = new mongoose.Schema({
         type:String
     },
     ratings:[],
-    reviews:[]
+    reviews:[],
+    readByUser:[]
 })
 
 module.exports = mongoose.model('Book', Book)

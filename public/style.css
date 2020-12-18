@@ -109,3 +109,16 @@ p
     bottom: 50px;
     display: none;
 }
+
+.square
+{
+    width: 33%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.contener
+{
+    margin-left: auto;
+    margin-right: auto;
+}
