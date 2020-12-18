@@ -82,6 +82,17 @@ router.get('/', checkAuthenticated, async (req, res) => {
     })
 })
 
+router.get('/user_books', (req, res) => {
+    res.send({user: nazwa})
+})
+router.get('/user_interests', (req, res) => {
+    res.send({user: nazwa})
+})
+router.get('/user_recommendations', (req, res) => {
+    res.send({user: nazwa, books: original_books})
+})
+
+
 router.get('/books', (req, res) => {
     if(control_search_all == 1){
         control_search_all = 0
@@ -111,6 +122,7 @@ router.post('/bookread', async (req, res) => {
     let id = +req.body.id.substring(4)
     let cat = req.body.cat.substring(10)
     let dane = new_read_method(books, nazwa.userName, rev, id)
+    let datka = dane[2]
     books = dane[0]
     let tlt = ''
     for(let i = 0; i < books.length; i++){
@@ -119,7 +131,11 @@ router.post('/bookread', async (req, res) => {
             break
         }
     }
-    nazwa.readBooks.push(tlt)
+    let wsad = {
+        title: tlt,
+        date: datka
+    }
+    nazwa.readBooks.push(wsad)
     await Book.updateOne({
         id: id
     },{
@@ -138,7 +154,7 @@ router.post('/bookread', async (req, res) => {
         userName: nazwa.userName
     },{
         $set: {
-             readBooks: nazwa.readBooks
+             readBooks: wsad
         }
     })
     if(!catcheck){
