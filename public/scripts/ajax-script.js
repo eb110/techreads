@@ -40,7 +40,7 @@ $(function() {
                    else bookread = 
                    '<form id="read-form">\
                         <div><input type="date" id="create-date" required value="' + new Date().toISOString().split('T')[0] + '"></div>\
-                        <button class="add-date-button">Book Read</button>\
+                        <button class="przycisk" id="add-date-button">Book Read</button>\
                    </form>\
                    '
                    let ratave = 0
@@ -80,7 +80,7 @@ $(function() {
                             <div class="square">\
                                 <form id="rewiev-form">\
                                     <div><input type="textarea" id="create-review"></div>\
-                                    <button class="add-review-button">Add Review</button>\
+                                    <button class="przycisk" id="add-review-button">Add Review</button>\
                                 </form>\
                             </div>\
                             <div class="square">\
@@ -98,7 +98,7 @@ $(function() {
                                     <option>9</option>\
                                     </select>\
                                     </div>\
-                                    <button class="add-rating-button">Add Rating</button>\
+                                    <button class="przycisk" id="add-rating-button">Add Rating</button>\
                                 </form>\
                             </div>\
                             <div class="square">\
@@ -116,7 +116,7 @@ $(function() {
     })
 
     //POST Review
-    $('dupa').on('click', '.add-review-button', function(event) {
+    $('dupa').on('click', '#add-review-button', function(event) {
         event.preventDefault();
        let check = $(this).closest('section')
        let id = check.find('.id').text()
@@ -135,7 +135,7 @@ $(function() {
     })
 
         //POST Rating
-        $('dupa').on('click', '.add-rating-button', function(event) {
+        $('dupa').on('click', '#add-rating-button', function(event) {
             event.preventDefault();
            let check = $(this).closest('section')
            let id = check.find('.id').text()
@@ -154,7 +154,7 @@ $(function() {
         })
 
               //POST Book read
-              $('dupa').on('click', '.add-date-button', function(event) {
+              $('dupa').on('click', '#add-date-button', function(event) {
                 event.preventDefault();
                let check = $(this).closest('section')
                let id = check.find('.id').text()

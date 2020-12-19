@@ -25,6 +25,8 @@ const new_review_method = require('../new_review')
 const new_rating_method = require('../new_rating')
 const new_read_method = require('../new_book_read')
 
+const passwordCheck = require('../checkPassword')
+
 //hook up passport configuration
 const initializePassport = require('../passport-config')
 
@@ -82,18 +84,18 @@ router.get('/', checkAuthenticated, async (req, res) => {
     })
 })
 
-router.get('/user_books', (req, res) => {
+router.get('/user_books', checkAuthenticated, (req, res) => {
     res.send({user: nazwa})
 })
-router.get('/user_interests', (req, res) => {
+router.get('/user_interests', checkAuthenticated, (req, res) => {
     res.send({user: nazwa})
 })
-router.get('/user_recommendations', (req, res) => {
+router.get('/user_recommendations', checkAuthenticated, (req, res) => {
     res.send({user: nazwa, books: original_books})
 })
 
 
-router.get('/books', (req, res) => {
+router.get('/books', checkAuthenticated, (req, res) => {
     if(control_search_all == 1){
         control_search_all = 0
     res.send({books: books, user: nazwa})
@@ -107,7 +109,7 @@ router.get('/books', (req, res) => {
     }
 })
 
-router.post('/search', (req, res) => {
+router.post('/search', checkAuthenticated, (req, res) => {
     control_search_all = 1
     let auth = req.body.auth
     let titl = req.body.titl
@@ -116,7 +118,7 @@ router.post('/search', (req, res) => {
     res.send('books has been searched')
 })
 
-router.post('/bookread', async (req, res) => {
+router.post('/bookread', checkAuthenticated, async (req, res) => {
     control_search_all = 1
     let rev = req.body.rev
     let id = +req.body.id.substring(4)
@@ -172,7 +174,7 @@ router.post('/bookread', async (req, res) => {
      res.send('review has been added')
  })
 
-router.post('/review', async (req, res) => {
+router.post('/review', checkAuthenticated, async (req, res) => {
    control_search_all = 1
    let rev = req.body.rev
    let id = req.body.id.substring(4)
@@ -191,7 +193,7 @@ router.post('/review', async (req, res) => {
     res.send('review has been added')
 })
 
-router.post('/rating', async (req, res) => {
+router.post('/rating', checkAuthenticated, async (req, res) => {
     control_search_all = 1
     let rev = req.body.rev
     let id = req.body.id.substring(4)
@@ -216,6 +218,12 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
         let password = req.body.password
         let rbn = req.body.name
         let rbe = req.body.email
+        let check = passwordCheck(password)
+        if(!check){
+            req.flash('error', 'Password is incorrect')
+            res.redirect('/register')
+        }
+        else{
         try{
             const hashedPassword = await bcrypt.hash(password, 10)
             const newUser = new User({
@@ -229,7 +237,7 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
             res.redirect('/login')           
         } catch {
             res.redirect('/register')
-        }})
+        }}})
 
 router.get('/login', checkNotAuthenticated, async (req, res) => {
             res.render('login.ejs')
