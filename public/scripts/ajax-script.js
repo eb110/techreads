@@ -71,7 +71,7 @@ $(function() {
                         <div>Publisher: ' + book.publisher + ' Year: ' + book.year + ' ISBN: ' + book.isbn + '</div>\
                         <div class="cat">Category: ' + book.category + '</div>\
                         <div class="id">ID: ' + book.id + '</div>\
-                        <div>Ratings Average: ' + +ratave.toFixed(2) + '</div>\
+                        <div>Ratings Average: ' + +ratave.toFixed(2) + ' Number of Ratings: ' + book.ratings.length + '</div>\
                         <div>Ratings: ' + wsad + '</div>\
                          ' + revWsad + '\
                          \
