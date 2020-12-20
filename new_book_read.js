@@ -12,7 +12,7 @@ function book_read(books, auth, dateAt, id){
             break
         }
     }
-    return [books, revs, newRead.date]
+    return [books, revs]
 }
 
 module.exports = book_read

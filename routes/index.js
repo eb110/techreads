@@ -58,7 +58,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
     })
     /*
     await Book.updateOne({
-        id: 11
+        id: 3
     },{
         $set: {
              readByUser: []
@@ -120,11 +120,10 @@ router.post('/search', checkAuthenticated, (req, res) => {
 
 router.post('/bookread', checkAuthenticated, async (req, res) => {
     control_search_all = 1
-    let rev = req.body.rev
+    let data = req.body.rev
     let id = +req.body.id.substring(4)
     let cat = req.body.cat.substring(10)
-    let dane = new_read_method(books, nazwa.userName, rev, id)
-    let datka = dane[2]
+    let dane = new_read_method(books, nazwa.userName, data, id)
     books = dane[0]
     let tlt = ''
     for(let i = 0; i < books.length; i++){
@@ -135,9 +134,12 @@ router.post('/bookread', checkAuthenticated, async (req, res) => {
     }
     let wsad = {
         title: tlt,
-        date: datka
+        date: data
     }
     nazwa.readBooks.push(wsad)
+    let userBooks = nazwa.readBooks
+    userBooks.forEach((book) => {console.log(book)})
+    //console.log('user books: ' + userBooks)
     await Book.updateOne({
         id: id
     },{
@@ -152,6 +154,7 @@ router.post('/bookread', checkAuthenticated, async (req, res) => {
             break
         }
     }
+    console.log('categories: ' + wsad)
     await User.updateOne({
         userName: nazwa.userName
     },{
@@ -162,6 +165,7 @@ router.post('/bookread', checkAuthenticated, async (req, res) => {
     if(!catcheck){
         nazwa.interests.push(cat)
         let wsadcat = nazwa.interests
+        console.log(wsadcat)
         await User.updateOne({
             userName: nazwa.userName
         },{
@@ -171,7 +175,7 @@ router.post('/bookread', checkAuthenticated, async (req, res) => {
         })
     }
     original_books = await Book.find({})
-     res.send('review has been added')
+     res.send('book set as read')
  })
 
 router.post('/review', checkAuthenticated, async (req, res) => {

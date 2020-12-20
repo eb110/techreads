@@ -6,8 +6,8 @@ function search(books, auth, titl, cath){
     if(titl.length == 0)titl = 'zzz'
     if(cath.length == 0)cath = 'zzz'
     let temp_books = []
-    let flag = 0
     for(let i = 0; i < books.length; i++){
+        let flag = 0
         for(let j = 0; j < books[i].authors.length; j++){
             if(books[i].authors[j].toLowerCase().includes(auth)){
                 temp_books.push(books[i])
