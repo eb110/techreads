@@ -1,9 +1,54 @@
 body
 {
     background-image: url("../public/img/tlo.png");
-    margin: 0px;
+   /* margin: 0px; */
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
+}
+
+#main
+{
+    width:900px;
+}
+
+#logo
+{
+
+    height: 50px;
+    background-color: #485b3b;
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+   /* padding: 5px 0px 5px 0px; */
+    letter-spacing: 3px;
+    border-bottom: 2px solid #33402a;
+    text-shadow:
+    2px 2px 0 #33402a,
+    -2px 2px 0 #33402a,
+    -2px -2px 0 #33402a,
+    2px -2px 0 #33402a;
+}
+
+#footer
+{
+    margin-left: auto;
+    margin-right: auto;
+  /*  width: 900px; */
+    height: 50px;
+    background-color: #485b3b;
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+   /* padding: 5px 0px 5px 0px; */
+    letter-spacing: 3px;
+    border-bottom: 2px solid #33402a;
+    text-shadow:
+    2px 2px 0 #33402a,
+    -2px 2px 0 #33402a,
+    -2px -2px 0 #33402a,
+    2px -2px 0 #33402a;
 }
 
 a:link
@@ -36,55 +81,17 @@ a:active
     color:white;
 }
 
-#logo
-{
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    height: 50px;
-    background-color: #485b3b;
-    font-size: 28px;
-    color: white;
-    text-align: center;
-    text-transform: uppercase;
-    padding: 5px 0px 5px 0px;
-    letter-spacing: 3px;
-    border-bottom: 2px solid #33402a;
-    text-shadow:
-    2px 2px 0 #33402a,
-    -2px 2px 0 #33402a,
-    -2px -2px 0 #33402a,
-    2px -2px 0 #33402a;
-}
 
-#footer
-{
-    margin-left: auto;
-    margin-right: auto;
-    width: 900px;
-    height: 50px;
-    background-color: #485b3b;
-    font-size: 28px;
-    color: white;
-    text-align: center;
-    text-transform: uppercase;
-    padding: 5px 0px 5px 0px;
-    letter-spacing: 3px;
-    border-bottom: 2px solid #33402a;
-    text-shadow:
-    2px 2px 0 #33402a,
-    -2px 2px 0 #33402a,
-    -2px -2px 0 #33402a,
-    2px -2px 0 #33402a;
-}
+
+
 
 #container
 {
     margin-left: auto;
     margin-right: auto;
     background-color: white;
-    width: 878px;
-    padding: 10px;
+  /*  width: 878px;
+    padding: 10px; */
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
 }
@@ -93,13 +100,13 @@ a:active
 {
     margin-left: auto;
     margin-right: auto;
-    width: 880px;
-    padding: 10px;
+   /* width: 880px;
+    padding: 10px; */
 }
 
 #spis
 {
-    width: 880px;
+   /* width: 880px; */
 }
 
 ol
