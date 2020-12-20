@@ -9,6 +9,8 @@ body
 #main
 {
     width:900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #logo
@@ -32,8 +34,7 @@ body
 
 #footer
 {
-    margin-left: auto;
-    margin-right: auto;
+  
   /*  width: 900px; */
     height: 50px;
     background-color: #485b3b;
