@@ -15,4 +15,4 @@ Scenario: As a user I can see an error message if i will fail the login
     And I enter "empty@op.pl" as my "email"
     And I enter "empty" as my "password"
     When I click the "login-btn" button
-    Then I should be on the "login" page again
+    Then I should be on the "login" page
