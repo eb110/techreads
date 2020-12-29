@@ -8,7 +8,7 @@ Scenario: As a user I can login
     And I enter "wfigura@op.pl" as my "email"
     And I enter "a" as my "password"
     When I click the "login-btn" button
-    Then I should be on the "techreads" page
+    Then I should be on the "index" page
 
 Scenario: As a user I can see an error message if i will fail the login
     Given I am on the "login" page
@@ -16,5 +16,3 @@ Scenario: As a user I can see an error message if i will fail the login
     And I enter "empty" as my "password"
     When I click the "login-btn" button
     Then I should be on the "login" page again
-
-    Feature Description
