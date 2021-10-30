@@ -1,4 +1,5 @@
-  
+//uwaga zmian answer.ejs na login.ejs...w dwoch miejscach
+
 const express = require('express')
 const router = express.Router()
 
@@ -31,8 +32,8 @@ const passwordCheck = require('../checkPassword')
 const initializePassport = require('../passport-config')
 
 initializePassport(
-    passport, 
-       //this is getUserByEmail function in passport-config.js file
+    passport,
+    //this is getUserByEmail function in passport-config.js file
     async email => {
         listUsers = await User.find({})
         const check = listUsers.find(x => x.userEmail === email)
@@ -85,27 +86,27 @@ router.get('/', checkAuthenticated, async (req, res) => {
 })
 
 router.get('/user_books', checkAuthenticated, (req, res) => {
-    res.send({user: nazwa})
+    res.send({ user: nazwa })
 })
 router.get('/user_interests', checkAuthenticated, (req, res) => {
-    res.send({user: nazwa})
+    res.send({ user: nazwa })
 })
 router.get('/user_recommendations', checkAuthenticated, (req, res) => {
-    res.send({user: nazwa, books: original_books})
+    res.send({ user: nazwa, books: original_books })
 })
 
 
 router.get('/books', checkAuthenticated, (req, res) => {
-    if(control_search_all == 1){
+    if (control_search_all == 1) {
         control_search_all = 0
-    res.send({books: books, user: nazwa})
+        res.send({ books: books, user: nazwa })
     }
     else {
         books = []
         original_books.forEach((book) => {
             books.push(book)
         })
-    res.send({books: original_books, user: nazwa})
+        res.send({ books: original_books, user: nazwa })
     }
 })
 
@@ -126,8 +127,8 @@ router.post('/bookread', checkAuthenticated, async (req, res) => {
     let dane = new_read_method(books, nazwa.userName, data, id)
     books = dane[0]
     let tlt = ''
-    for(let i = 0; i < books.length; i++){
-        if(books[i].id === id){
+    for (let i = 0; i < books.length; i++) {
+        if (books[i].id === id) {
             tlt = books[i].title
             break
         }
@@ -138,18 +139,18 @@ router.post('/bookread', checkAuthenticated, async (req, res) => {
     }
     nazwa.readBooks.push(wsad)
     let userBooks = nazwa.readBooks
-    userBooks.forEach((book) => {console.log(book)})
+    userBooks.forEach((book) => { console.log(book) })
     //console.log('user books: ' + userBooks)
     await Book.updateOne({
         id: id
-    },{
+    }, {
         $set: {
-             readByUser: dane[1]
+            readByUser: dane[1]
         }
     })
     let catcheck = false
-    for(let i = 0; i < nazwa.interests.length; i++){
-        if(nazwa.interests[i] === cat){
+    for (let i = 0; i < nazwa.interests.length; i++) {
+        if (nazwa.interests[i] === cat) {
             catcheck = true
             break
         }
@@ -157,43 +158,43 @@ router.post('/bookread', checkAuthenticated, async (req, res) => {
     console.log('categories: ' + wsad)
     await User.updateOne({
         userName: nazwa.userName
-    },{
+    }, {
         $set: {
-             readBooks: wsad
+            readBooks: wsad
         }
     })
-    if(!catcheck){
+    if (!catcheck) {
         nazwa.interests.push(cat)
         let wsadcat = nazwa.interests
         console.log(wsadcat)
         await User.updateOne({
             userName: nazwa.userName
-        },{
+        }, {
             $set: {
-                 interests: wsadcat
+                interests: wsadcat
             }
         })
     }
     original_books = await Book.find({})
-     res.send('book set as read')
- })
+    res.send('book set as read')
+})
 
 router.post('/review', checkAuthenticated, async (req, res) => {
-   control_search_all = 1
-   let rev = req.body.rev
-   let id = req.body.id.substring(4)
-   if(rev !== undefined && rev.length > 0){
-   let dane = new_review_method(books, nazwa.userName, rev, id)
-   books = dane[0]
-   await Book.updateOne({
-       id: id
-   },{
-       $set: {
-            reviews: dane[1]
-       }
-   })
-   original_books = await Book.find({})
-}
+    control_search_all = 1
+    let rev = req.body.rev
+    let id = req.body.id.substring(4)
+    if (rev !== undefined && rev.length > 0) {
+        let dane = new_review_method(books, nazwa.userName, rev, id)
+        books = dane[0]
+        await Book.updateOne({
+            id: id
+        }, {
+            $set: {
+                reviews: dane[1]
+            }
+        })
+        original_books = await Book.find({})
+    }
     res.send('review has been added')
 })
 
@@ -205,30 +206,30 @@ router.post('/rating', checkAuthenticated, async (req, res) => {
     books = dane[0]
     await Book.updateOne({
         id: id
-    },{
+    }, {
         $set: {
-             ratings: dane[1]
+            ratings: dane[1]
         }
     })
     original_books = await Book.find({})
-     res.send('rating has been added')
+    res.send('rating has been added')
 })
 
 router.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs')
-    })
+})
 
 router.post('/register', checkNotAuthenticated, async (req, res) => {
-        let password = req.body.password
-        let rbn = req.body.name
-        let rbe = req.body.email
-        let check = passwordCheck(password)
-        if(!check){
-            req.flash('error', 'Password is incorrect')
-            res.redirect('/register')
-        }
-        else{
-        try{
+    let password = req.body.password
+    let rbn = req.body.name
+    let rbe = req.body.email
+    let check = passwordCheck(password)
+    if (!check) {
+        req.flash('error', 'Password is incorrect')
+        res.redirect('/register')
+    }
+    else {
+        try {
             const hashedPassword = await bcrypt.hash(password, 10)
             const newUser = new User({
                 userName: rbn,
@@ -238,49 +239,52 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
                 interests: []
             })
             await newUser.save()
-            res.redirect('/login')           
+            //   res.redirect('/login')  
+            res.redirect('/answer')
         } catch {
             res.redirect('/register')
-        }}})
+        }
+    }
+})
 
 router.get('/login', checkNotAuthenticated, async (req, res) => {
-            res.render('login.ejs')
-        })
+    res.render('answer.ejs')
+})
 
 router.post('/login', passport.authenticate('local', {
-            //we are going to modify it
-            successRedirect: '/',
-            failureRedirect: '/login',
-            //we want to flash message
-            failureFlash: true
-        }))
+    //we are going to modify it
+    successRedirect: '/',
+    failureRedirect: '/login',
+    //we want to flash message
+    failureFlash: true
+}))
 
 router.delete('/logout', (req, res) => {
-            req.logOut()
-            res.redirect('/login')
-        })
+    req.logOut()
+    res.redirect('/login')
+})
 
 
 
 //this will avoid the ability to visit pages without authentication
-function checkAuthenticated(req, res, next){
+function checkAuthenticated(req, res, next) {
     //because of passport we can use isAuthenticated function
     //this function has to be applied to the routing page
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         //if user logged then go next
         return next()
     }
     //if not redirect
     res.redirect('/login')
+}
+
+//function to avoid double login
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/')
     }
-    
-    //function to avoid double login
-    function checkNotAuthenticated(req, res, next){
-        if(req.isAuthenticated()){
-            return res.redirect('/')
-        }
-        //next just stays your browsing as it is
-        next()
-    }
+    //next just stays your browsing as it is
+    next()
+}
 
 module.exports = router
